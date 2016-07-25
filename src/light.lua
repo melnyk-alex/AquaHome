@@ -64,6 +64,19 @@ function light.transition.night()
     print(light.leds.b.bright, light.leds.c.bright, light.leds.h.bright)
 end
 
+function light.values()
+    return {
+        name = "light",
+        title = "Light",
+        value = {
+            const = light.const,
+            leds = light.leds,
+            bright = light.bright,
+            phase = light.phase
+        }
+    }
+end
+
 return function()
     for i, pin in pairs({ light.leds.b.pin, light.leds.c.pin, light.leds.h.pin }) do
         pwm.setup(pin, 100, 0)
