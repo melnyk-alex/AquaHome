@@ -49,5 +49,7 @@ end
 return function(app)
     app.modules.internet.on('appeared', astro.sync)
 
+    tmr.alarm(app.config.props.timers.astro.id, app.config.props.timers.astro.interval, tmr.ALARM_AUTO, astro.sync)
+
     return astro
 end
