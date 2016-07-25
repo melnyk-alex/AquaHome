@@ -10,21 +10,25 @@ function time.sync()
 end
 
 function time.getTime()
-    local sec = rtctime.get()
+    local millis = rtctime.get()
     return {
-        hour = math.floor(sec % 86400 / 3600 + 3),
-        minute = math.floor(sec % 3600 / 60),
-        second = math.floor(sec % 60)
+        hour = math.floor(millis % 86400 / 3600 + 3),
+        minute = math.floor(millis % 3600 / 60),
+        second = math.floor(millis % 60),
+        millisecond = millis
     }
 end
 
 function time.values()
     return {
-        time = time.getTime()
+        name = "time",
+        title = "Time",
+        value = time.getTime()
     }
 end
 
 return function (app)
     app.modules.internet.on('appeared', time.sync)
+
     return time
 end
