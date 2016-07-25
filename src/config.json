@@ -1,12 +1,14 @@
 {
-    "modules": [ "astro", "light", "time", "web" ],
-    "wifiw": {
+    "modules": [
+        "internet",
+        "astro",
+        "light",
+        "time",
+        "web"
+    ],
+    "wifi": {
         "ssid": "Alpha 2.4G",
         "pass": "codefire"
-    },
-    "wifih": {
-        "ssid": "Beta",
-        "pass": "Intel1394"
     },
     "timers": {
         "time": {
