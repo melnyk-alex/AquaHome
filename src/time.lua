@@ -1,3 +1,4 @@
+local application
 local time = {}
 
 function time.sync()
@@ -28,9 +29,12 @@ function time.values()
 end
 
 return function (app)
-    app.modules.internet.on('appeared', time.sync)
+    application = app
+    application.on("modulesloaded", function ()
+        app.modules.internet.on('appeared', time.sync)
 
-    tmr.alarm(app.config.props.timers.time.id, app.config.props.timers.time.interval, tmr.ALARM_AUTO, time.sync)
+        tmr.alarm(app.config.props.timers.time.id, app.config.props.timers.time.interval, tmr.ALARM_AUTO, time.sync)
+    end)
 
     return time
 end

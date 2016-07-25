@@ -1,3 +1,4 @@
+local application
 local astro = {
     api = {
         astronomy = "http://api.wunderground.com/api/6723a9f9aa2d43e1/astronomy/q/Ukraine/Kyiv.json",
@@ -47,9 +48,12 @@ function astro.values()
 end
 
 return function(app)
-    app.modules.internet.on('appeared', astro.sync)
+    application = app
+    application.on("modulesloaded", function ()
+        app.modules.internet.on('appeared', astro.sync)
 
-    tmr.alarm(app.config.props.timers.astro.id, app.config.props.timers.astro.interval, tmr.ALARM_AUTO, astro.sync)
+        tmr.alarm(app.config.props.timers.astro.id, app.config.props.timers.astro.interval, tmr.ALARM_AUTO, astro.sync)
+    end)
 
     return astro
 end

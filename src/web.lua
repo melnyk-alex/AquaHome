@@ -55,8 +55,10 @@ end
 return function(app)
     application = app
 
-    web.server = net.createServer(net.TCP, 5)
-    web.server:listen(80, web.handler)
+    application.on("modulesloaded", function ()
+        web.server = net.createServer(net.TCP, 5)
+        web.server:listen(80, web.handler)
+    end)
 
     return web
 end
