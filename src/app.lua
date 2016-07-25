@@ -26,22 +26,6 @@ function app.init(conf)
         print("app", "ERROR MODULES LOAD", error)
     end
 
-    --    print("WAKEUP WIFI")
-    --    wifi.setmode(wifi.STATION)
-    --    wifi.sta.config(config.data.wifiw.ssid, config.data.wifiw.pass, 1)
-
-    --    local function wifi_connect()
-    --        if wifi.sta.getip() ~= nil then
-    --            tmr.stop(0)
-    --
-    --            time.sync(function(now)
-    --                print(string.format("NOW: %02d:%02d:%02d", now.hour, now.minute, now.second))
-    --            end)
-    --
-    --            print("IP: " .. wifi.sta.getip())
-    --        end
-    --    end
-    --
     --    local function ledssync()
     --        now = time.getTime()
     --
@@ -101,6 +85,20 @@ function app.loadModules()
             print("app", "ERROR LOAD MODULE", name, module)
         end
     end
+end
+
+function app.getValues()
+    local values = {}
+
+    for i, module in pairs(app.modules) do
+        local status, data = pcall(module.values)
+
+        if status then
+            table.insert(values, data)
+        end
+    end
+
+    return values
 end
 
 function app.on(event, callback)

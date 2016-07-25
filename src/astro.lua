@@ -1,3 +1,4 @@
+local application
 local astro = {
     api = {
         astronomy = "http://api.wunderground.com/api/6723a9f9aa2d43e1/astronomy/q/Ukraine/Kyiv.json",
@@ -42,6 +43,13 @@ function astro.sync(callback)
     end)
 end
 
+function astro.values()
+    return {
+        astro = astro.data
+    }
+end
+
 return function(app)
+    application = app
     return astro
 end

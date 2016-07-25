@@ -18,6 +18,12 @@ function time.getTime()
     }
 end
 
+function time.values()
+    return {
+        time = time.getTime()
+    }
+end
+
 return function (app)
     app.modules.internet.on('appeared', time.sync)
     return time

@@ -2,14 +2,19 @@ local application
 local web = {
     server = nil,
     opened = false,
-    jsonprops = ""
+    jsonconfig = "",
+    jsonvalues = ""
 }
 
 function web.handler(conn)
     conn:on("receive", function(sock, data)
         ok, json = pcall(cjson.encode, application.config.props)
         if ok then
-            web.jsonprops = json
+            web.jsonconfig = json
+        end
+        ok, json = pcall(cjson.encode, application.getValues())
+        if ok then
+            web.jsonvalues = json
         end
 
         filename = string.match(data, "GET /(.*) HTTP")
@@ -29,9 +34,10 @@ function web.handler(conn)
             local line = file.readline()
 
             if line ~= nil then
-                local wrapped = string.gsub(line, "var config = {};", "var config = " .. web.jsonprops .. ";")
+                line = string.gsub(line, "var config = {};", "var config = " .. web.jsonconfig .. ";")
+                line = string.gsub(line, "var values = {};", "var values = " .. web.jsonvalues .. ";")
 
-                sock:send(wrapped)
+                sock:send(line)
             else
                 file.close()
                 opened = false
@@ -48,6 +54,7 @@ end
 
 return function(app)
     application = app
+
     web.server = net.createServer(net.TCP, 5)
     web.server:listen(80, web.handler)
 
