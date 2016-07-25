@@ -110,8 +110,6 @@ function app.on(event, callback)
 end
 
 --tmr.alarm(0, 500, tmr.ALARM_AUTO, wifi_connect)
---tmr.alarm(props.timers.time.id, props.timers.time.interval, tmr.ALARM_AUTO, time.sync)
---tmr.alarm(props.timers.astro.id, props.timers.astro.interval, tmr.ALARM_AUTO, astro.sync)
 --tmr.alarm(props.timers.light.id, props.timers.light.interval, tmr.ALARM_AUTO, ledssync)
 
 return app.init
