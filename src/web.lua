@@ -31,8 +31,6 @@ function web.handler(conn)
             if line ~= nil then
                 local wrapped = string.gsub(line, "var config = {};", "var config = " .. web.jsonprops .. ";")
 
-                print(wrapped)
-
                 sock:send(wrapped)
             else
                 file.close()
