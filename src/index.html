@@ -2,37 +2,112 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>NodeMCU</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
 </head>
 <body>
-<nav class="navbar navbar-inverse navbar-static-top">
-    <div class="container">
-        <div class="navbar-header">
-            <div class="navbar-brand">
-                <i class="fa fa-fw fa-dashboard"></i> AquaLife
+<div style="height: 15px;"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="jumbotron">
+                <h1>AquaHome</h1>
+                <p>Welcome to AquaHome dashboard</p>
             </div>
         </div>
-    </div>
-</nav>
-<div class="container">
-    <!--<div class="page-header">-->
-    <!--<h1>AquaLife</h1>-->
-    <!--</div>-->
-    <div class="jumbotron">
-        <h1>AquaHome</h1>
-        <p>Welcome to AquaHome dashboard</p>
-        <!--<p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>-->
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-fw fa-dashboard"></i> Sensors</h3>
+                </div>
+                <ul id="sensorList" class="list-group">
+                    <li class="list-group-item">
+                        <i class="fa fa-fw fa-paw"></i>
+                        Temperature
+                        <span class="badge">25℃</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="https://use.fontawesome.com/81d6224bdc.js"></script>
-<script>var config = {};</script>
 <script>
+    var config = {};
+    var values = {};
+</script>
+<script>
+    var sensorList = $('#sensorList');
 
+    $.each(values, function (i, data) {
+        console.log(data);
+
+        var liDom = $('<li class="list-group-item"/>');
+
+        switch (data.name) {
+            case 'time':
+                liDom.append($('<i class="fa fa-fw fa-clock-o"/>')).append(data.title);
+
+                var h = data.value.hour > 9 ? data.value.hour : "0" + data.value.hour;
+                var m = data.value.minute > 9 ? data.value.minute : "0" + data.value.minute;
+                var s = data.value.second > 9 ? data.value.second : "0" + data.value.second;
+
+                liDom.append($('<span class="badge"/>').html(h + ":" + m + ":" + s));
+                break;
+            case 'astro':
+                liDom.append($('<i class="fa fa-fw fa-sun-o"/>')).append(data.title);
+
+                var srh = data.value.sunrise.hour > 9 ? data.value.sunrise.hour : "0" + data.value.sunrise.hour;
+                var srm = data.value.sunrise.minute > 9 ? data.value.sunrise.minute : "0" + data.value.sunrise.minute;
+
+                var ssh = data.value.sunset.hour > 9 ? data.value.sunset.hour : "0" + data.value.sunset.hour;
+                var ssm = data.value.sunset.minute > 9 ? data.value.sunset.minute : "0" + data.value.sunset.minute;
+
+                liDom.append($('<span class="badge"/>')
+                        .append($('<i class="fa fa-fw fa-sun-o"/>'))
+                        .append(srh + ":" + srm + " - " + ssh + ":" + ssm));
+
+
+                var moonbadge = $('<span class="badge"/>').append($('<i class="fa fa-fw fa-moon-o"/>'));
+
+                if (data.value.moonrise.hour) {
+                    var mrh = data.value.moonrise.hour > 9 ? data.value.moonrise.hour : "0" + data.value.moonrise.hour;
+                    var mrm = data.value.moonrise.minute > 9 ? data.value.moonrise.minute : "0" + data.value.moonrise.minute;
+
+                    moonbadge.append(mrh + ":" + mrm);
+                }
+
+                if (data.value.moonset.hour) {
+                    var msh = data.value.moonset.hour > 9 ? data.value.moonset.hour : "0" + data.value.moonset.hour;
+                    var msm = data.value.moonset.minute > 9 ? data.value.moonset.minute : "0" + data.value.moonset.minute;
+
+                    moonbadge.append(msh + ":" + msm)
+                }
+
+                liDom.append(moonbadge);
+                break;
+            case 'light':
+                liDom.append($('<i class="fa fa-fw fa-lightbulb-o"/>')).append(data.title);
+
+                liDom.append($('<span class="badge"/>')
+                        .append(data.value.phase.last || "None")
+                        .append($('<i class="fa fa-fw fa-angle-double-right"/>'))
+                        .append(data.value.phase.curr || "None")
+                );
+                break;
+
+            default:
+                return;
+        }
+
+        sensorList.append(liDom);
+    });
 </script>
 </body>
 </html>
