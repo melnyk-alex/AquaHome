@@ -25,7 +25,7 @@ function web.handler(conn)
             opened = true
             sock:send("HTTP/1.1 200 OK\r\nServer: AquaHome on ESP8266\r\nContent-Type: text/html\r\n\r\n")
         else
-            sock:send("HTTP/1.1 404 OK\r\nServer: AquaHome on ESP8266\r\nContent-Type: text/html\r\n\r\n")
+            sock:send("HTTP/1.1 404 OK\r\nServer: AquaHome on ESP8266\r\nContent-Type: text/html\r\n\r\nPage not found!")
         end
     end)
 
