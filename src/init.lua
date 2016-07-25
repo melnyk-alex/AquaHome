@@ -1,19 +1,31 @@
 print("...WAITING...")
 
-tmr.alarm(0, 6000, tmr.ALARM_SINGLE, function ()
-    local cfg = dofile("config.lua")
-    config = cfg()
-    print(config, cjson.encode(config.props))
+tmr.alarm(0, 6000, tmr.ALARM_SINGLE, function()
+    local status, config = pcall(dofile, "config.lua")
 
     if status then
-        print("CONFIG LOADED")
-    else
-        print(status, config)
-    end
+        status, config = pcall(config)
 
---    if pcall(dofile("app.lua"), config) then
---        print("APP IS DONE LOADED")
---    else
---        print("ERRORS")
---    end
+        if status then
+            print("CONFIG LOADED")
+
+            status, app = pcall(dofile, "app.lua")
+
+            if status then
+                status, app = pcall(app, config)
+
+                if status then
+                    print("APP LOADED")
+                else
+                    print(app)
+                end
+            else
+                print(app)
+            end
+        else
+            print(app)
+        end
+    else
+        print(app)
+    end
 end)
