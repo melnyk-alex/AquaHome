@@ -29,7 +29,7 @@ function web.handler(conn)
             local line = file.readline()
 
             if line ~= nil then
-                local wrapped = string.gsub(line, "//APP_CONFIG", "var config = " .. web.jsonprops .. ";")
+                local wrapped = string.gsub(line, "var config = {};", "var config = " .. web.jsonprops .. ";")
 
                 print(wrapped)
 
