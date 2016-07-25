@@ -3,7 +3,9 @@ local time = {}
 function time.sync()
     sntp.sync("0.ua.pool.ntp.org", function(sec, msec, server)
         rtctime.set(sec, msec)
-        print("TIME SYNC")
+
+        now = time.getTime()
+        print(string.format("TIME NOW: %02d:%02d:%02d", now.hour, now.minute, now.second))
     end)
 end
 
