@@ -20,6 +20,10 @@ function time.getTime()
     }
 end
 
+function time.toMillis(hour, minute)
+    return hour * 60 * 60 * 1000 + minute * 60 * 1000
+end
+
 function time.values()
     return {
         name = "time",
