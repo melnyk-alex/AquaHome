@@ -5,10 +5,9 @@ local astro = {
         weather = ""
     },
     data = {
-        sunrise = { hour = 6, minute = 0 },
-        sunset = { hour = 20, minute = 0 },
-        moonrise = { hour = 20, minute = 0 },
-        moonset = { hour = 6, minute = 0 }
+        sunrise = { hour = 6, minute = 0, millis = 21600000 },
+        sunset = { hour = 20, minute = 0, millis = 72000000 },
+        moonset = { hour = 6, minute = 0, millis = 21600000 }
     }
 }
 
@@ -26,11 +25,10 @@ function astro.sync()
             }
 
             for name, when in pairs(astroData) do
-                local ok, millis = pcall(application.modules.time.toMillis, when.hour, when.minute)
                 astro.data[name] = {
                     hour = when.hour,
                     time = when.minute,
-                    millis = ok and millis
+                    millis = application.modules.time.toMillis(when.hour, when.minute)
                 }
             end
         end
