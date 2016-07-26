@@ -17,24 +17,24 @@ function astro.sync()
         if code == 200 then
             local data_table = cjson.decode(data)
 
-            astro.data = {
-                sunrise = {
-                    hour = tonumber(data_table.sun_phase.sunrise.hour),
-                    minute = tonumber(data_table.sun_phase.sunrise.minute)
-                },
-                sunset = {
-                    hour = tonumber(data_table.sun_phase.sunset.hour),
-                    minute = tonumber(data_table.sun_phase.sunset.minute)
-                },
-                moonrise = {
-                    hour = tonumber(data_table.moon_phase.moonrise.hour),
-                    minute = tonumber(data_table.moon_phase.moonrise.minute)
-                },
-                moonset = {
-                    hour = tonumber(data_table.moon_phase.moonset.hour),
-                    minute = tonumber(data_table.moon_phase.moonset.minute)
-                }
+            astro.data = {}
+
+            local astroData = {
+                sunrise = data_table.sun_phase.sunrise,
+                sunset = data_table.sun_phase.sunset,
+                moonset = data_table.moon_phase.moonset
             }
+
+            for name, when in pairs(astroData) do
+                local ok, millis = pcall(application.modules.time.toMillis, when.hour, when.minute)
+                astro.data[name] = {
+                    hour = when.hour,
+                    time = when.minute,
+                    millis = ok and millis
+                }
+            end
+
+            print(cjson.encode(astro.data))
         end
     end)
 end
@@ -49,7 +49,7 @@ end
 
 return function(app)
     application = app
-    application.on("modulesloaded", function ()
+    application.on("modulesloaded", function()
         app.modules.internet.on('appeared', astro.sync)
 
         tmr.alarm(app.config.props.timers.astro.id, app.config.props.timers.astro.interval, tmr.ALARM_AUTO, astro.sync)
