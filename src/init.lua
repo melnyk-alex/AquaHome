@@ -1,6 +1,8 @@
 print("...WAITING...")
 
 tmr.alarm(0, 6000, tmr.ALARM_SINGLE, function()
+    node.setcpufreq(node.CPU160MHZ)
+
     local status, config = pcall(dofile, "config.lua")
 
     if status then
