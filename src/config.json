@@ -6,10 +6,13 @@
         "time",
         "web"
     ],
-    "wifi": {
+    "wifi": [{
         "ssid": "Alpha 2.4G",
         "pass": "codefire"
-    },
+    },{
+        "ssid": "Beta",
+        "pass": "Intel1394"
+    }],
     "timers": {
         "time": {
             "id": 1,
