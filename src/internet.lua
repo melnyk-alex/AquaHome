@@ -1,6 +1,9 @@
+local application
 local internet = {}
 internet.listeners = {}
 internet.listeners.appeared = {}
+
+local apcheck = 1
 
 function internet.on(event, callback)
     if event == "appeared" then
@@ -20,10 +23,37 @@ function internet.gotIP(t)
     end
 end
 
+function internet.disconnected(t)
+    print("::: DISCONNECTED", t.SSID, t.BSSID, t.reason)
+
+    if t.reason == 201 then
+        apcheck = apcheck + 1
+
+        local info = application.config.props.wifi[apcheck]
+
+        if info ~= nil then
+            internet.connect(info)
+        end
+    end
+end
+
+function internet.connect(info)
+    print("TRY CONNECT AP", info.ssid)
+    wifi.sta.config(info.ssid, info.pass, 1)
+end
+
 return function(app)
+    application = app
+
     wifi.eventmon.register(wifi.eventmon.STA_GOT_IP, internet.gotIP)
+    wifi.eventmon.register(wifi.eventmon.STA_DISCONNECTED, internet.disconnected)
     wifi.setmode(wifi.STATION)
-    wifi.sta.config(app.config.props.wifi.ssid, app.config.props.wifi.pass, 1)
+
+    local info = application.config.props.wifi[apcheck]
+
+    if info ~= nil then
+        internet.connect(info)
+    end
 
     return internet
 end
