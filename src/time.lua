@@ -16,7 +16,7 @@ function time.getTime()
         hour = math.floor(millis % 86400 / 3600 + 3),
         minute = math.floor(millis % 3600 / 60),
         second = math.floor(millis % 60),
-        millisecond = millis
+        millis = millis
     }
 end
 
