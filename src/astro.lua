@@ -33,8 +33,6 @@ function astro.sync()
                     millis = ok and millis
                 }
             end
-
-            print(cjson.encode(astro.data))
         end
     end)
 end
