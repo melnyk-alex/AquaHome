@@ -11,13 +11,17 @@ function time.sync()
 end
 
 function time.getTime()
-    local millis = rtctime.get()
-    return {
-        hour = math.floor(millis % 86400 / 3600 + 3),
-        minute = math.floor(millis % 3600 / 60),
-        second = math.floor(millis % 60),
-        millis = millis
+    local epoch = rtctime.get()
+
+    local value = {
+        hour = math.floor(epoch % 86400 / 3600 + 3),
+        minute = math.floor(epoch % 3600 / 60),
+        second = math.floor(epoch % 60),
+        epoch = epoch
     }
+    value.millis = time.toMillis(value.hour, value.minute)
+
+    return value
 end
 
 function time.toMillis(hour, minute)
