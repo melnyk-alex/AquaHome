@@ -26,44 +26,8 @@ function app.init(conf)
         print("app", "ERROR MODULES LOAD", error)
     end
 
-    --    local function ledssync()
-    --        now = time.getTime()
-    --
-    --        if (now.hour == astro.data.sunrise.hour and now.minute >= astro.data.sunrise.minute) or
-    --                (now.hour > astro.data.sunrise.hour and now.hour < astro.data.sunset.hour) or
-    --                (now.hour == astro.data.sunset.hour and now.minute <= astro.data.sunset.minute) then
-    --            if light.phase.curr ~= "sun" then
-    --                light.phase = { last = light.phase.curr, curr = "sun" }
-    --            end
-    --        elseif (now.hour == astro.data.moonrise.hour and now.minute >= astro.data.moonrise.minute) or
-    --                (now.hour > astro.data.moonrise.hour or now.hour < astro.data.moonset.hour) or
-    --                (now.hour == astro.data.moonset.hour and now.minute <= astro.data.moonset.minute) then
-    --            if light.phase.curr ~= "moon" then
-    --                light.phase = { last = light.phase.curr, curr = "moon" }
-    --            end
-    --        elseif light.phase.curr ~= "night" then
-    --            light.phase = { last = light.phase.curr, curr = "night" }
-    --        end
-    --
-    --        tmr.unregister(props.timers.trans.id)
-    --        tmr.alarm(props.timers.trans.id, props.timers.trans.interval, tmr.ALARM_SINGLE, check)
-    --    end
-    --
-    --    local function check()
-    --        if light.phase.last ~= light.phase.curr then
-    --            print(light.phase.last, "->", light.phase.curr)
-    --
-    --            light.phase.last = light.phase.curr
-    --
-    --            if light.phase.curr == "sun" then
-    --                light.transition.day()
-    --            elseif light.phase.curr == "moon" then
-    --                light.transition.moon()
-    --            else
-    --                light.transition.night()
-    --            end
-    --        end
-    --    end
+    collectgarbage()
+    print(node.heap())
 end
 
 function app.loadModules()
@@ -110,6 +74,5 @@ function app.on(event, callback)
 end
 
 --tmr.alarm(0, 500, tmr.ALARM_AUTO, wifi_connect)
---tmr.alarm(props.timers.light.id, props.timers.light.interval, tmr.ALARM_AUTO, ledssync)
 
 return app.init
