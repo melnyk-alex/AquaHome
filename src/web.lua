@@ -3,7 +3,11 @@ local web = {
     server = nil,
     opened = false,
     jsonconfig = "",
-    jsonvalues = ""
+    jsonvalues = "",
+    rest = {
+        get = { "light" },
+        post = { "light" }
+    }
 }
 
 function web.handler(conn)
@@ -17,13 +21,15 @@ function web.handler(conn)
             web.jsonvalues = json
         end
 
-        filename = string.match(data, "GET /(.*) HTTP")
+        filename = string.match(data, "[GET|POST] /(.*) HTTP")
         filename = filename == "" and "index.html" or filename
 
         if file.exists(filename) then
             file.open(filename, "r")
             opened = true
             sock:send("HTTP/1.1 200 OK\r\nServer: AquaHome on ESP8266\r\nContent-Type: text/html\r\n\r\n")
+        elseif web.rest.uris.contains() then
+
         else
             sock:send("HTTP/1.1 404 OK\r\nServer: AquaHome on ESP8266\r\nContent-Type: text/html\r\n\r\nPage not found!")
         end
@@ -55,7 +61,7 @@ end
 return function(app)
     application = app
 
-    application.on("modulesloaded", function ()
+    application.on("modulesloaded", function()
         web.server = net.createServer(net.TCP, 5)
         web.server:listen(80, web.handler)
     end)
