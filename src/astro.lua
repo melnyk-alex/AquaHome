@@ -27,7 +27,7 @@ function astro.sync()
             for name, when in pairs(astroData) do
                 astro.data[name] = {
                     hour = when.hour,
-                    time = when.minute,
+                    minute = when.minute,
                     millis = application.modules.time.toMillis(when.hour, when.minute)
                 }
             end
