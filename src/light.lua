@@ -21,7 +21,7 @@ function light.sync()
     local daylight, absolute = sunset - sunrise, current - sunrise
     local percent = absolute * 100. / daylight
     -- 0 -> 100 -> 0
-    local lightvalue = (50 - math.abs(percent - 50) * 100 / 50)
+    local lightvalue = (50 - math.abs(percent - 50)) * 100 / 50
 
     if sunrise <= current and current <= sunset then
         light.bright.curr = math.floor(lightvalue)
