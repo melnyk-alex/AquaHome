@@ -9,11 +9,10 @@ local light = {
         h = { pin = 5, bright = 0 }
     },
     bright = {
-        day = 960,
-        moon = { b = 60, c = 15, h = 25 },
-        night = 0
-    },
-    phase = { last = "", curr = "" }
+        moon = 0,
+        day = 100,
+        curr = 0
+    }
 }
 
 function light.sync()
@@ -25,10 +24,14 @@ function light.sync()
     local lightvalue = 50 - math.abs(percent - 50)
 
     if sunrise <= current and current <= sunset then
+        bright.curr = math.floor(lightvalue)
+
         print(sunrise, current, sunset)
         print(daylight, absolute, percent)
-        print(lightvalue)
+        print(lightvalue, math.floor(lightvalue))
+        print("DAY")
     else
+        bright.curr = 0
         print("MOON")
     end
 end
@@ -38,10 +41,7 @@ function light.values()
         name = "light",
         title = "Light",
         value = {
-            const = light.const,
-            leds = light.leds,
-            bright = light.bright,
-            phase = light.phase
+            bright = light.bright
         }
     }
 end
