@@ -47,9 +47,13 @@ function internet.connect()
     end
 end
 
-function values()
+function internet.values()
     return {
-        ssid = internet.ssid
+        name = "internet",
+        title = "Network",
+        value = {
+            ssid = internet.ssid
+        }
     }
 end
 
