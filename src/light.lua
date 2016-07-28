@@ -20,18 +20,18 @@ function light.sync()
 
     local daylight, absolute = sunset - sunrise, current - sunrise
     local percent = absolute * 100. / daylight
-    -- 0 -> 50 -> 0
-    local lightvalue = 50 - math.abs(percent - 50)
+    -- 0 -> 100 -> 0
+    local lightvalue = (50 - math.abs(percent - 50) * 100 / 50)
 
     if sunrise <= current and current <= sunset then
-        bright.curr = math.floor(lightvalue)
+        light.bright.curr = math.floor(lightvalue)
 
         print(sunrise, current, sunset)
         print(daylight, absolute, percent)
         print(lightvalue, math.floor(lightvalue))
         print("DAY")
     else
-        bright.curr = 0
+        light.bright.curr = 0
         print("MOON")
     end
 end
