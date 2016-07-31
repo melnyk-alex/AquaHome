@@ -9,7 +9,7 @@ local light = {
         h = { pin = 5, bright = 0 }
     },
     bright = {
-        moon = 0,
+        moon = 10,
         day = 100,
         curr = 0
     }
@@ -26,9 +26,9 @@ function light.sync()
     if sunrise <= current and current <= sunset then
         light.bright.curr = math.floor(lightvalue)
 
-        print(sunrise, current, sunset)
-        print(daylight, absolute, percent)
-        print(lightvalue, math.floor(lightvalue))
+        -- print(sunrise, current, sunset)
+        -- print(daylight, absolute, percent)
+        -- print(lightvalue, light.bright.curr)
         print("DAY")
     else
         light.bright.curr = 0
