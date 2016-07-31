@@ -9,3 +9,4 @@
 # Hardware
 1. NodeMCU V3
 2. LED strips based on _SMD5050_ LED
+3. Power DC 12V for LED's
