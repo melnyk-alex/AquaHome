@@ -5,8 +5,8 @@ local astro = {
         weather = ""
     },
     data = {
-        sunrise = { hour = 6, minute = 0, millis = 21600000 },
-        sunset = { hour = 20, minute = 0, millis = 72000000 },
+        sunrise = { hour = 8, minute = 58, millis = 21600000 },
+        sunset = { hour = 17, minute = 4, millis = 72000000 },
         moonset = { hour = 6, minute = 0, millis = 21600000 }
     }
 }
