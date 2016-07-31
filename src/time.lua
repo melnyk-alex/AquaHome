@@ -30,7 +30,6 @@ end
 
 function time.values()
     return {
-        name = "time",
         title = "Time",
         value = time.getTime()
     }

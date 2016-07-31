@@ -37,7 +37,6 @@ end
 
 function astro.values()
     return {
-        name = "astro",
         title = "Astronomy",
         value = astro.data
     }

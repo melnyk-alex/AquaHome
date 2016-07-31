@@ -38,7 +38,6 @@ end
 
 function light.values()
     return {
-        name = "light",
         title = "Light",
         value = {
             bright = light.bright

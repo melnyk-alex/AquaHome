@@ -49,7 +49,6 @@ end
 
 function internet.values()
     return {
-        name = "internet",
         title = "Network",
         value = {
             ssid = internet.ssid
