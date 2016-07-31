@@ -11,11 +11,11 @@ function app.init(conf)
     if status then
         print("MODULES LOADED")
 
-        app.modules.internet.on('appeared', function (i)
-            print("IP:" .. i.IP)
+        app.modules.internet.on('appeared', function(i)
+            print("IP: " .. i.IP)
         end)
 
-        for i,callback in pairs(app.listeners.modulesloaded) do
+        for i, callback in pairs(app.listeners.modulesloaded) do
             status, error = pcall(callback, app)
 
             if not status then
@@ -27,7 +27,7 @@ function app.init(conf)
     end
 
     collectgarbage()
-    print(node.heap())
+    print("HEAP: ", node.heap())
 end
 
 function app.loadModules()
@@ -54,11 +54,11 @@ end
 function app.getValues()
     local values = {}
 
-    for i, module in pairs(app.modules) do
+    for name, module in pairs(app.modules) do
         local status, data = pcall(module.values)
 
         if status then
-            table.insert(values, data)
+            values[name] = data
         end
     end
 
